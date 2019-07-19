@@ -30,10 +30,14 @@ class ConnectFour {
       const isValidInput = Boolean(!isNaN(column) && parseInt(column) <= 6 && parseInt(column) >= 0);
       if (isValidInput) {
         const columnIndex = parseInt(column);
-        for (let i = 5; i >= 0; i -= 1){
-          if (!this.board[i][columnIndex]) {
-            this.board[i][columnIndex] = this.currentPlayer;
-            break;
+        if (this.board[0][columnIndex]) {
+          console.log('The column is filled.  Please choose different column');
+        } else {
+          for (let i = 5; i >= 0; i -= 1) {
+            if (!this.board[i][columnIndex]) {
+              this.board[i][columnIndex] = this.currentPlayer;
+              break;
+            }
           }
         }
         const hasWinner = this.checkWinner();
