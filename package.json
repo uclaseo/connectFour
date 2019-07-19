@@ -1,0 +1,19 @@
+{
+  "name": "connectfour",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uclaseo/connectFour.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uclaseo/connectFour/issues"
+  },
+  "homepage": "https://github.com/uclaseo/connectFour#readme"
+}
