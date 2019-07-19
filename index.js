@@ -24,11 +24,34 @@ class ConnectFour {
   }
   
   placeMove() {
-
+    this.printBoard();
+    rl.question('which column?', (answer) => {
+      if (answer === 'exit') {
+        this.exitGame();
+      } else {
+        this.placeMove();
+        this.checkWinner();
+      }
+    });
   }
 
   printBoard() {
-
+    let boardString = '';
+    this.board.forEach((row) => {
+      boardString += '|';
+      row.forEach((cell) => {
+        if (!cell) {
+          boardString += ' |';
+        } else if (cell === 'r') {
+          boardString += 'r|';
+        } else if (cell === 'y') {
+          boardString += 'y|';
+        }
+      });
+      boardString += '\n';
+    });
+    boardString += '---------------';
+    console.log(boardString);
   }
 
   checkWinner() {
