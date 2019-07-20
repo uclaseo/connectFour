@@ -34,18 +34,24 @@ class ConnectFour {
       const isValidInput = Boolean(!isNaN(column) && parseInt(column) <= 6 && parseInt(column) >= 0);
       if (isValidInput) {
         const columnIndex = parseInt(column);
+        let placedLocation = [];
         if (this.board[0][columnIndex]) {
           console.log('The column is filled.  Please choose different column');
+          return this.placeMove();
         } else {
           for (let i = 5; i >= 0; i -= 1) {
             if (!this.board[i][columnIndex]) {
               this.board[i][columnIndex] = this.currentPlayer;
+              placedLocation.push(i, columnIndex);
               break;
             }
           }
         }
-        const hasWinner = this.checkWinner();
+        const hasWinner = this.checkWinner(placedLocation);
+        console.log('hasWinner', hasWinner);
         if (hasWinner) {
+          this.printBoard();
+          console.log('Winner is', this.getCurrentPlayer());
           this.exitGame();
         } else {
           this.rotatePlayer();
@@ -87,12 +93,68 @@ class ConnectFour {
     }
   }
 
-  checkWinner() {
+  checkWinner(placedLocation) {
+    const [rowIndex, columnIndex] = placedLocation;
+    let hasRow = this.checkRow(rowIndex)
+    if (hasRow) {
+      return true;
+    }
+    let hasColumn = this.checkColumn(columnIndex);
+    if (hasColumn) {
+      return true;
+    }
+    let hasDiagonal = this.checkDiagonal(rowIndex, columnIndex);
+    if (hasDiagonal) {
+      return true;
+    }
     return false;
   }
 
+  checkRow(row) {
+    const board = this.board;
+    const currentPlayer = this.getCurrentPlayer();
+    let count = 0;
+    for (let i = 0; i < 7; i += 1) {
+      if (board[row][i] === currentPlayer) {
+        count += 1;
+        if (count === 4) {
+          return true;
+        }
+      } else {
+        count = 0;
+      }
+    }
+    return false;
+  }
+  
+  checkColumn(column) {
+    const board = this.board;
+    const currentPlayer = this.getCurrentPlayer();
+    let count = 0;
+    for (let i = 5; i >= 0; i -= 1) {
+      if (board[i][column] === currentPlayer) {
+        count += 1;
+        if (count === 4) {
+          return true;
+        }
+      } else {
+        count = 0;
+      }
+    }
+    return false;
+  }
+
+  checkDiagonal(row, column) {
+    return false;
+  }
+
+
   getBoard() {
     return this.board;
+  }
+
+  getCurrentPlayer() {
+    return this.currentPlayer;
   }
 
   exitGame() {
@@ -103,6 +165,6 @@ class ConnectFour {
 
 const connectFour = new ConnectFour();
 
-// connectFour.startGame();
+connectFour.startGame();
 
 module.exports = connectFour;

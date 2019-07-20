@@ -18,7 +18,7 @@ describe('ConnectFour', function() {
   });
 
   it('should set the current player as red disc at the beginning', function() {
-    const currentPlayer = connectFour.currentPlayer;
+    const currentPlayer = connectFour.getCurrentPlayer();
     assert.equal(currentPlayer, 'r');
   });
   
@@ -26,13 +26,16 @@ describe('ConnectFour', function() {
     // because board is initiated with yellow disc already inserted in the center column, currentPlayer is set as red
     // when roated, it should be yellow
     connectFour.rotatePlayer();
-    assert.equal(connectFour.currentPlayer, 'y');
+    let currentPlayer = connectFour.getCurrentPlayer();
+    assert.equal(currentPlayer, 'y');
+
     connectFour.rotatePlayer();
-    assert.equal(connectFour.currentPlayer, 'r');
+    currentPlayer = connectFour.getCurrentPlayer();
+    assert.equal(currentPlayer, 'r');
   });
   
   it('should insert disc into correct column and row', function() {
-    const currentPlayer = connectFour.currentPlayer;
+    const currentPlayer = connectFour.getCurrentPlayer();
     connectFour.placeMove();
     connectFour.rl.write('0\n');
     const rowIndex = 5;
@@ -41,23 +44,11 @@ describe('ConnectFour', function() {
   });
 
   it('should stack on top when disc is already in the column', function() {
-    const currentPlayer = connectFour.currentPlayer;
+    const currentPlayer = connectFour.getCurrentPlayer();
     connectFour.placeMove();
     connectFour.rl.write('0\n');
     const rowIndex = 4;
     const columnIndex = 0;
     assert.equal(board[rowIndex][columnIndex], currentPlayer);
-  })
+  });
 });
-
-
-
-
-
-// describe('Array', function() {
-//   describe('#indexOf()', function() {
-//     it('should return -1 when the value is not present', function() {
-//       assert.equal([1, 2, 3].indexOf(4), -1);
-//     });
-//   });
-// });
