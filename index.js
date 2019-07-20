@@ -1,10 +1,5 @@
 const readline = require('readline');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
 class ConnectFour {
   constructor() {
     // each array is row
@@ -18,6 +13,15 @@ class ConnectFour {
       [null, null, null, 'y', null, null, null],
     ];
     this.currentPlayer = 'r'
+    this.rl = this.createInputHandler();
+  }
+
+  createInputHandler() {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    return rl;
   }
 
   startGame() {
@@ -26,7 +30,7 @@ class ConnectFour {
   
   placeMove() {
     this.printBoard();
-    rl.question('Which column? (0 - 6)', (column) => {
+    this.rl.question('Which column? (0 - 6)', (column) => {
       const isValidInput = Boolean(!isNaN(column) && parseInt(column) <= 6 && parseInt(column) >= 0);
       if (isValidInput) {
         const columnIndex = parseInt(column);
@@ -77,14 +81,18 @@ class ConnectFour {
 
   rotatePlayer() {
     if (this.currentPlayer === 'y') {
-      this.currentPlayer = 'r';
+      return this.currentPlayer = 'r';
     } else {
-      this.currentPlayer = 'y';
+      return this.currentPlayer = 'y';
     }
   }
 
   checkWinner() {
     return false;
+  }
+
+  getBoard() {
+    return this.board;
   }
 
   exitGame() {
@@ -95,4 +103,6 @@ class ConnectFour {
 
 const connectFour = new ConnectFour();
 
-connectFour.startGame();
+// connectFour.startGame();
+
+module.exports = connectFour;

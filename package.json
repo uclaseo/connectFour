@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/uclaseo/connectFour/issues"
   },
-  "homepage": "https://github.com/uclaseo/connectFour#readme"
+  "homepage": "https://github.com/uclaseo/connectFour#readme",
+  "devDependencies": {
+    "mocha": "^6.2.0"
+  }
 }
