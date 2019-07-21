@@ -3,7 +3,7 @@
 Done in Node.
 
 Install Dependencies.
-`
+
 ```
 npm install
 ```
@@ -16,7 +16,7 @@ npm test
 ```
 
 ### ConnectFour My Own Version
-This version is my own implementation.  Using input stream, a player is asked to input a column to place a disc, and keeps rotating players between 'r' and 'y'.  Everytime input is executed, the updated board is printed out to show status.  The codes to run this at the bottom is commented out, so to run this, uncomment lines 424 and 425.
+This version is my own implementation.  Using input stream, a player is asked to input a column to place a disc, and keeps rotating players between 'r' and 'y'.  Everytime input is executed, the updated board is printed out to show status.  The codes to run this at the bottom is commented out, so to run this, uncomment lines 415 and 416.
 ```
 // uncomment
 // const connectFour = new ConnectFour();
