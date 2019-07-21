@@ -1,6 +1,11 @@
 const assert = require('assert');
 const ConnectFour = require('../index');
 
+/**
+ * ========================================
+ * Testing Instructed Version of Connect Four
+ * ========================================
+ */
 describe('ConnectFour Instructed Version', function() {
   const connectFour = new ConnectFour();
   describe('State Validity', function() {
@@ -13,7 +18,7 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null]
       ];
-      assert.equal(connectFour._isStateValid(board), true);
+      assert.equal(connectFour.isStateValid(board), true);
     });
     it('should validate number of rows', function() {
       // 5 X 7
@@ -24,7 +29,7 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null],
       ];
-      assert.equal(connectFour._isStateValid(board), false);
+      assert.equal(connectFour.isStateValid(board), false);
     });
     it('should validate number of columns', function() {
       // 6 x 6
@@ -36,7 +41,7 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null],
         [null, null, null, null, null, null]
       ];
-      assert.equal(connectFour._isStateValid(board), false);
+      assert.equal(connectFour.isStateValid(board), false);
     });
 
     it('should validate board with discs in correct places', function() {
@@ -56,8 +61,8 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null, null],
         [null, null, null, 'y', null, null, null],
       ]
-      assert.equal(connectFour._isStateValid(correctBoard), true);
-      assert.equal(connectFour._isStateValid(incorrectBoard), false);
+      assert.equal(connectFour.isStateValid(correctBoard), true);
+      assert.equal(connectFour.isStateValid(incorrectBoard), false);
     });
     it('should validate board with discs with correct number', function() {
       const yellowBoard = [
@@ -75,8 +80,8 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null],
         [null, null, 'r', 'y', 'r', 'y', 'r'],
-      ]
-      assert.equal(connectFour._isStateValid(yellowBoard), false);
+      ];
+      assert.equal(connectFour.isStateValid(yellowBoard), false);
     });
   });
 
@@ -98,12 +103,124 @@ describe('ConnectFour Instructed Version', function() {
         [null, null, null, null, null, null, 'y'],
         ['y', null, null, 'y', 'r', null, 'r']
       ];
-      assert.equal(connectFour._getCurrentPlayer(boardWithYellowTurn), 'y');
-      assert.equal(connectFour._getCurrentPlayer(boardWithRedTurn), 'r');
+      assert.equal(connectFour.getCurrentPlayer(boardWithYellowTurn), 'y');
+      assert.equal(connectFour.getCurrentPlayer(boardWithRedTurn), 'r');
+    });
+  });
 
+  describe('Play and Placing Discs', function() {
+    it('should start a game with yellow disc in the center row', function() {
+      const board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, 'r', null, null, null]
+      ];
+      assert.equal(connectFour.play(board, 0, 'y'), false);
+    });
+    it('should place a disc in correct place', function() {
+      const board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, 'y', null, null, null]
+      ];
+      const updatedBoard = connectFour.play(board, 3, 'r');
+      assert.equal(updatedBoard[4][3], 'r');
     })
   });
+
+  describe('Winning Condition', function() {
+    describe('Row', function() {
+      it('should return true if there is a winner with row', function() {
+        const board = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, 'r', null, null, null],
+          ['y', 'y', 'y', 'y', 'r', 'r', null]
+        ];
+        assert.equal(connectFour.checkRow(board), true);
+      });
+
+    });
+    describe('Column', function() {
+      it('should return true if there is a winner with column', function() {
+        const board = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          ['y', null, null, null, null, null, null],
+          ['y', null, null, null, null, null, null],
+          ['y', 'r', 'r', 'r', null, null, null],
+          ['y', 'y', 'y', 'r', 'r', 'r', null]
+        ];
+        assert.equal(connectFour.checkColumn(board), true);
+      });
+    });
+    describe('Diagonal', function() {
+      it('should return true if there is a winner with diagonal(top left to bottom right)', function() {
+        const board = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          ['y', null, null, null, null, null, null],
+          ['r', 'y', null, null, null, null, null],
+          ['y', 'y', 'y', 'r', null, null, null],
+          ['r', 'r', 'r', 'y', null, null, null]
+        ];
+        assert.equal(connectFour.checkDiagonal(board), true);
+      });
+      it('should return true if there is a winner with diagonal(bottom left to top right)', function() {
+        const board = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, 'r', null, null, null],
+          [null, null, 'r', 'y', null, null, null],
+          [null, 'r', null, 'y', null, null, null],
+          ['r', null, null, 'y', 'y', null, null]
+        ];
+        assert.equal(connectFour.checkDiagonal(board), true);
+      });
+    });
+    describe('Any Direction', function() {
+      it('should return false if there is no winner', function() {
+        const board = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, 'y', 'r', null, null, null],
+          ['y', 'r', 'y', 'y', 'r', 'r', null]
+        ];
+        assert.equal(connectFour.checkWinner(board), false);
+      });
+      it('should return true if there is winner', function() {
+        const board = [
+          [null, 'r', null, null, null, null, null],
+          [null, 'y', 'r', null, null, null, null],
+          [null, 'y', 'y', 'r', null, null, null],
+          ['r', 'r', 'r', 'y', 'r', null, null],
+          ['r', 'y', 'y', 'y', 'r', null, null],
+          ['y', 'r', 'y', 'y', 'y', 'r', null]
+        ];
+        assert.equal(connectFour.checkWinner(board), true);
+      });
+
+
+    });
+  });
+
 });
+
+/**
+ * ========================================
+ * Testing My Version of Connect Four
+ * ========================================
+ */
 
 describe('ConnectFour Inseok Version', function() {
   const connectFour = new ConnectFour();
@@ -123,7 +240,7 @@ describe('ConnectFour Inseok Version', function() {
   });
 
   it('should set the current player as red disc at the beginning', function() {
-    const currentPlayer = connectFour.getCurrentPlayer();
+    const currentPlayer = connectFour._getCurrentPlayer();
     assert.equal(currentPlayer, 'r');
   });
   
@@ -131,17 +248,17 @@ describe('ConnectFour Inseok Version', function() {
     // because board is initiated with yellow disc already inserted in the center column, currentPlayer is set as red
     // when roated, it should be yellow
     connectFour.rotatePlayer();
-    let currentPlayer = connectFour.getCurrentPlayer();
+    let currentPlayer = connectFour._getCurrentPlayer();
     assert.equal(currentPlayer, 'y');
 
     connectFour.rotatePlayer();
-    currentPlayer = connectFour.getCurrentPlayer();
+    currentPlayer = connectFour._getCurrentPlayer();
     assert.equal(currentPlayer, 'r');
   });
   
   it('should insert disc into correct column and row', function() {
-    const currentPlayer = connectFour.getCurrentPlayer();
-    connectFour.placeMove();
+    const currentPlayer = connectFour._getCurrentPlayer();
+    connectFour._placeMove();
     connectFour.rl.write('0\n');
     const rowIndex = 5;
     const columnIndex = 0;
@@ -149,8 +266,8 @@ describe('ConnectFour Inseok Version', function() {
   });
 
   it('should stack on top when disc is already in the column', function() {
-    const currentPlayer = connectFour.getCurrentPlayer();
-    connectFour.placeMove();
+    const currentPlayer = connectFour._getCurrentPlayer();
+    connectFour._placeMove();
     connectFour.rl.write('0\n');
     const rowIndex = 4;
     const columnIndex = 0;
