@@ -418,9 +418,5 @@ class ConnectFour {
  * 
  * 
  */
-
-
-const connectFour = new ConnectFour();
-connectFour.startNewGame();
  
 module.exports = ConnectFour;

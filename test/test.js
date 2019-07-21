@@ -120,7 +120,7 @@ describe('ConnectFour Instructed Version', function() {
       ];
       assert.equal(connectFour.play(board, 0, 'y'), false);
     });
-    it('should place a disc in correct place', function() {
+    it('should place a disc in correct place and returns an updated board', function() {
       const board = [
         [null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null],
