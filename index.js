@@ -186,15 +186,6 @@ class ConnectFour {
     return false;
   }
   checkDiagonal(gameState) {
-    // const board = [
-    //   [null, null, null, null, null, null, null],
-    //   [null, null, null, null, null, null, null],
-    //   [null, null, null, 'r', null, null, null],
-    //   [null, null, 'r', 'y', null, null, null],
-    //   [null, 'r', null, 'y', null, null, null],
-    //   ['r', null, null, 'y', 'y', null, null]
-    // ];
-    
     // top left to bottom right
     // since connect four dimensions is 6 X 7, diagonal of 4 can be achieved only from row 0 to 2, and column 0 to 3, startingCell being top left.
     for (let i = 0; i < 3; i += 1) {
@@ -245,7 +236,7 @@ class ConnectFour {
   }
   
   _placeMove() {
-    // this.printBoard();
+    this.printBoard();
     this.rl.question('Which column? (0 - 6)', (column) => {
       const isValidInput = Boolean(!isNaN(column) && parseInt(column) <= 6 && parseInt(column) >= 0);
       if (isValidInput) {
@@ -265,7 +256,7 @@ class ConnectFour {
         }
         const hasWinner = this._checkWinner(placedLocation);
         if (hasWinner) {
-          // this.printBoard();
+          this.printBoard();
           console.log('Winner is', this._getCurrentPlayer());
           this.exitGame();
         } else {
@@ -429,6 +420,7 @@ class ConnectFour {
  */
 
 
-
+const connectFour = new ConnectFour();
+connectFour.startNewGame();
  
 module.exports = ConnectFour;
